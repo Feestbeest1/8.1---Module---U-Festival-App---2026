@@ -1,0 +1,139 @@
+/* ===================== */
+/* CSS VARIABLES / THEME */
+/* ===================== */
+:root {
+  --accent: #F03228;
+  --secondary: #247BA0;
+  --info: #E3B505;
+  --font: 'Sansation', sans-serif;
+  --radius: 12px;
+  --nav-height: 72px;
+  --header-height: 56px;
+  --transition: 0.25s ease;
+}
+
+[data-theme="light"] {
+  --bg: #FFFFFF;
+  --bg-card: #F5F5F5;
+  --text: #000000;
+  --text-muted: #555555;
+  --border: #E0E0E0;
+  --header-bg: #000000;
+  --header-text: #FFFFFF;
+  --nav-bg: #FFFFFF;
+  --nav-text: #000000;
+  --nav-active: #F03228;
+}
+
+[data-theme="dark"] {
+  --bg: #000000;
+  --bg-card: #1A1A1A;
+  --text: #FFFFFF;
+  --text-muted: #AAAAAA;
+  --border: #333333;
+  --header-bg: #000000;
+  --header-text: #FFFFFF;
+  --nav-bg: #111111;
+  --nav-text: #FFFFFF;
+  --nav-active: #F03228;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: var(--header-height);
+  background: var(--header-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 100;
+}
+
+.header-logo { display: flex; align-items: center; gap: 10px; }
+.logo { height: 32px; width: auto; }
+.header-title {
+  font-weight: 700; font-size: 18px;
+  color: var(--header-text); letter-spacing: 2px;
+}
+.header-controls { display: flex; align-items: center; gap: 8px; }
+
+.icon-btn {
+  background: none; border: none; color: var(--header-text);
+  cursor: pointer; padding: 6px; display: flex; align-items: center;
+  border-radius: 50%; transition: background var(--transition);
+}
+.icon-btn:hover { background: rgba(255,255,255,0.1); }
+
+.lang-btn {
+  background: none; border: none; font-size: 22px;
+  cursor: pointer; padding: 4px; border-radius: 4px;
+  transition: transform var(--transition);
+}
+.lang-btn:hover { transform: scale(1.1); }
+
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: var(--header-height);
+  margin-bottom: var(--nav-height);
+  -webkit-overflow-scrolling: touch;
+}
+
+.page {
+  padding: 20px 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-title {
+  font-size: 13px; font-weight: 400; color: var(--text-muted);
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;
+}
+
+.page-heading {
+  font-size: 28px; font-weight: 700; color: var(--secondary);
+  margin-bottom: 20px; line-height: 1.1;
+}
+
+.card {
+  background: var(--bg-card); border-radius: var(--radius);
+  padding: 16px; margin-bottom: 12px; border: 1px solid var(--border);
+  transition: background var(--transition);
+}
+
+.btn-accent {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius); padding: 12px 20px;
+  font-family: var(--font); font-size: 14px; font-style: italic;
+  font-weight: 300; cursor: pointer; transition: opacity var(--transition);
+}
+.btn-accent:hover { opacity: 0.85; }

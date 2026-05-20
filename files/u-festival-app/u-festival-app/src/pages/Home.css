@@ -1,0 +1,59 @@
+.home-hero {
+  background: var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  margin-bottom: 24px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero::before {
+  content: '❤';
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  font-size: 120px;
+  opacity: 0.1;
+  line-height: 1;
+}
+
+.home-welcome {
+  font-size: 12px;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 2px;
+  opacity: 0.85;
+  margin-bottom: 4px;
+}
+
+.home-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.home-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 6px;
+  opacity: 0.9;
+}
+.home-meta .material-icons { font-size: 16px; }
+
+.section-heading {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.news-card { border-left: 3px solid var(--accent); }
+.news-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.news-text { font-size: 14px; font-weight: 400; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
+.news-date { font-size: 12px; font-weight: 300; font-style: italic; color: var(--text-muted); }
