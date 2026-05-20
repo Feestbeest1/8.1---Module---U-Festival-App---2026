@@ -4,7 +4,9 @@ import './Info.css'
 
 const labels = {
   nl: { title: "FESTIVAL", heading: "INFORMATIE" },
-  en: { title: "FESTIVAL", heading: "INFORMATION" }
+  en: { title: "FESTIVAL", heading: "INFORMATION" },
+  fr: { title: "FESTIVAL", heading: "INFORMATIONS" },
+  de: { title: "FESTIVAL", heading: "INFORMATIONEN" },
 }
 
 function Accordion({ title, children }) {

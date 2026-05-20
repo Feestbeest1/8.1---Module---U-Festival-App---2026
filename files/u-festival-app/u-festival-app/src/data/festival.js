@@ -66,6 +66,74 @@ export const festivalData = {
         content: "GLU students have special privileges at the festival and are recognizable by a golden wristband. They can use the golden toilets and marked order points at the bars without waiting in line."
       }
     }
+  },
+  fr: {
+    info: {
+      general: {
+        title: "Général & contact",
+        content: "Le ❤️U Festival est destiné aux (nouveaux) étudiants de la région d'Utrecht et complète l'UIT.\n\nAdresse : Strijkviertel, Utrecht\nNavigation : Strijkviertelweg, Utrecht\n\nDate & Horaires :\nSamedi 15 août 2026 - 12h00 à 23h00\nDimanche 16 août 2026 - 12h00 à 23h00"
+      },
+      accessibility: {
+        title: "Comment y aller",
+        sections: [
+          { heading: "Vélo", text: "Un grand parking vélo gratuit est disponible où vous pouvez garer votre vélo pour toute la journée." },
+          { heading: "Voiture", text: "Vous pouvez acheter un ticket de parking au P+R Papendorp, suivez les panneaux 'P online ticket'. Pas de ticket en avance ? Achetez-en un auprès du gardien sur place (CARTE UNIQUEMENT). Attention : COMPLET = COMPLET." },
+          { heading: "Transports en commun", text: "Vous venez en transports en commun ? Planifiez votre trajet via 9292.nl." },
+          { heading: "Navette", text: "Depuis la gare d'Utrecht Central, prenez notre navette gratuite (départ Mineurslaan). Elle circule entre 12h00 et 19h00 vers le festival, et à partir de 21h00 vers la gare." },
+          { heading: "Taxi + Kiss & Ride", text: "Naviguez vers Strijkviertel, De Meern (Utrecht). Suivez les panneaux 'Kiss & Ride ❤️U Festival'." }
+        ]
+      },
+      lockers: {
+        title: "Casiers",
+        content: "Des casiers sont disponibles sur le site du festival pour ranger vos affaires en toute sécurité. Ils peuvent contenir 3 à 4 vestes. Vous pouvez ouvrir et fermer votre casier tout au long de la journée. La réservation en ligne n'est pas possible."
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          { q: "Je prends des médicaments. Que faire ?", a: "Vous pouvez apporter des médicaments en dose journalière maximale. Un certificat médical est nécessaire." },
+          { q: "Puis-je quitter le site temporairement ?", a: "Non, malheureusement ce n'est pas possible afin d'assurer la sécurité de tous les visiteurs." },
+          { q: "Y a-t-il des casiers ?", a: "Oui ! Vous pouvez louer des casiers moyens et grands sur place." }
+        ]
+      },
+      golden: {
+        title: "Golden-GLU",
+        content: "Les étudiants du GLU bénéficient de privilèges spéciaux lors du festival et sont reconnaissables à un bracelet doré. Ils peuvent utiliser les toilettes dorées et les points de commande aux bars sans faire la queue."
+      }
+    }
+  },
+  de: {
+    info: {
+      general: {
+        title: "Allgemein & Kontakt",
+        content: "Das ❤️U Festival richtet sich an (neue) Studierende der Region Utrecht und ergänzt das UIT.\n\nAdresse: Strijkviertel, Utrecht\nNavigation: Strijkviertelweg, Utrecht\n\nDatum & Öffnungszeiten:\nSamstag, 15. August 2026 - 12:00 bis 23:00\nSonntag, 16. August 2026 - 12:00 bis 23:00"
+      },
+      accessibility: {
+        title: "Anreise",
+        sections: [
+          { heading: "Fahrrad", text: "Ein großer kostenloser Fahrradparkplatz ist vorhanden, wo Sie Ihr Fahrrad den ganzen Tag abstellen können." },
+          { heading: "Auto", text: "Sie können ein Parkticket kaufen. Parken ist am P+R Papendorp möglich, folgen Sie den Schildern 'P online ticket'. Kein Ticket? Kaufen Sie eines beim Parkwächter vor Ort (NUR PIN). Achtung: VOLL = VOLL." },
+          { heading: "Öffentliche Verkehrsmittel", text: "Kommen Sie mit öffentlichen Verkehrsmitteln? Planen Sie Ihre Fahrt über 9292.nl." },
+          { heading: "Shuttlebus", text: "Vom Hauptbahnhof Utrecht nehmen Sie unseren kostenlosen Shuttlebus (Abfahrt Mineurslaan). Er fährt zwischen 12:00 und 19:00 Uhr zum Festival und ab 21:00 Uhr zurück zum Bahnhof." },
+          { heading: "Taxi + Kiss & Ride", text: "Navigieren Sie zu Strijkviertel, De Meern (Utrecht). Folgen Sie den Schildern 'Kiss & Ride ❤️U Festival'." }
+        ]
+      },
+      lockers: {
+        title: "Schließfächer",
+        content: "Auf dem Festivalgelände sind Schließfächer vorhanden, in denen Sie Ihre Sachen sicher aufbewahren können. Es passen 3 bis 4 Jacken hinein. Sie können Ihr Schließfach den ganzen Tag öffnen und schließen. Eine Online-Reservierung ist nicht möglich."
+      },
+      faq: {
+        title: "FAQ",
+        items: [
+          { q: "Ich nehme Medikamente. Was nun?", a: "Sie dürfen Medikamente in der Tagesdosis mitbringen. Ein Arztzeugnis ist erforderlich." },
+          { q: "Kann ich das Festivalgelände zeitweise verlassen?", a: "Nein, leider ist das nicht möglich, um die Sicherheit aller Besucher zu gewährleisten." },
+          { q: "Gibt es Schließfächer?", a: "Ja! Sie können mittelgroße und große Schließfächer vor Ort mieten." }
+        ]
+      },
+      golden: {
+        title: "Golden-GLU",
+        content: "GLU-Studierende haben beim Festival besondere Privilegien und sind an einem goldenen Armband erkennbar. Sie können die goldenen Toiletten und die markierten Bestellpunkte an den Bars ohne Warteschlange nutzen."
+      }
+    }
   }
 }
 
