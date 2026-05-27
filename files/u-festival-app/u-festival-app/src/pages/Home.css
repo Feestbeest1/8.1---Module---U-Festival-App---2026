@@ -53,7 +53,33 @@
   letter-spacing: 1px;
 }
 
+.news-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .news-card { border-left: 3px solid var(--accent); }
 .news-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
 .news-text { font-size: 14px; font-weight: 400; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
 .news-date { font-size: 12px; font-weight: 300; font-style: italic; color: var(--text-muted); }
+
+/* ── Desktop ─────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .home-hero {
+    padding: 48px 40px;
+    margin-bottom: 32px;
+  }
+
+  .home-hero::before { font-size: 180px; }
+
+  .home-title { font-size: 52px; }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .section-heading { font-size: 18px; margin-bottom: 16px; }
+}

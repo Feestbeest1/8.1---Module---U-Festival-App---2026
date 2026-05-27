@@ -4,7 +4,10 @@
       "Bash(node generate-icons.js)",
       "Bash(npm run *)",
       "Bash(npm install *)",
-      "Bash(npm list *)"
+      "Bash(npm list *)",
+      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\Downloads\" | Where-Object { $_.Name -match \"flag|nl|en|fr|de\" } | Select-Object Name, LastWriteTime | Sort-Object LastWriteTime -Descending | Select-Object -First 20)",
+      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\Downloads\" | Sort-Object LastWriteTime -Descending | Select-Object -First 10 | Format-Table Name, LastWriteTime)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\docker\\\\sites\\\\8.1---Module---U-Festival-App---2026\\\\files\\\\u-festival-app\\\\u-festival-app\\\\public\\\\flags\")"
     ]
   }
 }

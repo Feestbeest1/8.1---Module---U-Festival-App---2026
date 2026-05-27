@@ -327,17 +327,29 @@ export default function Map({ language }) {
         </div>
       </div>
 
-      {/* Legenda */}
+      {/* Legenda — compact paneel op de kaart */}
       {showLegend && (
-        <div className="legend-overlay" onClick={() => setShowLegend(false)}>
-          <div className="legend-modal" onClick={e => e.stopPropagation()}>
-            <button className="legend-close-btn" onClick={() => setShowLegend(false)}>
+        <div className="legend-panel" onClick={e => e.stopPropagation()}>
+          <div className="legend-panel-header">
+            <span className="legend-panel-title">{lang.legend}</span>
+            <button className="legend-panel-close" onClick={() => setShowLegend(false)}>
               <span className="material-icons">close</span>
-              <span>{lang.close}</span>
             </button>
-            <div className="legend-scroll">
-              <img src="/legenda.svg" alt="Legenda" className="legend-img" draggable={false} />
-            </div>
+          </div>
+          <div className="legend-panel-body">
+            {/* Deduplicate op label zodat food niet 2x staat */}
+            {markers.reduce((acc, m) => {
+              const label = lbl(m.label)
+              if (!acc.find(a => lbl(a.label) === label)) acc.push(m)
+              return acc
+            }, []).map(m => (
+              <div key={m.id} className="legend-item">
+                <div className="legend-pin" style={{ background: m.color }}>
+                  <span className="material-icons legend-pin-icon">{m.icon}</span>
+                </div>
+                <span className="legend-label">{lbl(m.label)}</span>
+              </div>
+            ))}
           </div>
         </div>
       )}

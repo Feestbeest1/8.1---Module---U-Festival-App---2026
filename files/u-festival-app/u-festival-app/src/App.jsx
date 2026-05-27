@@ -11,10 +11,10 @@ import './styles/global.css'
 const Admin = lazy(() => import('./pages/Admin.jsx'))
 
 const LANGUAGES = [
-  { code: 'nl', label: 'NL', flag: '🇳🇱' },
-  { code: 'en', label: 'EN', flag: '🇬🇧' },
-  { code: 'fr', label: 'FR', flag: '🇫🇷' },
-  { code: 'de', label: 'DE', flag: '🇩🇪' },
+  { code: 'nl', label: 'NL', flag: '/flags/nl.svg' },
+  { code: 'en', label: 'EN', flag: '/flags/en.svg' },
+  { code: 'fr', label: 'FR', flag: '/flags/fr.svg' },
+  { code: 'de', label: 'DE', flag: '/flags/de.svg' },
 ]
 
 // ── Admin-scherm (eigen layout, geen header/navbar) ───────────────────────
@@ -94,10 +94,9 @@ function AppLayout() {
             <button
               className="lang-switch-btn"
               onClick={() => setLangMenuOpen(o => !o)}
-              title="Switch language"
+              title={currentLang.label}
             >
-              <span className="lang-flag">{currentLang.flag}</span>
-              <span className="lang-label">{currentLang.label}</span>
+              <img src={currentLang.flag} alt={currentLang.label} className="lang-flag" />
               <span className="material-icons lang-arrow">expand_more</span>
             </button>
             {langMenuOpen && (
@@ -107,9 +106,9 @@ function AppLayout() {
                     key={l.code}
                     className="lang-option"
                     onClick={() => { setLanguage(l.code); setLangMenuOpen(false) }}
+                    title={l.label}
                   >
-                    <span>{l.flag}</span>
-                    <span>{l.label}</span>
+                    <img src={l.flag} alt={l.label} className="lang-option-flag" />
                   </button>
                 ))}
               </div>

@@ -1,4 +1,9 @@
-.schedule-page { padding-bottom: 16px; }
+.schedule-page {
+  padding-bottom: 16px;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
 
 /* Tab switcher */
 .schedule-tabs {
@@ -116,7 +121,7 @@
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.6);
   z-index: 200;
-  display: flex; align-items: flex-end;
+  display: flex; align-items: flex-end; justify-content: center;
   animation: overlayIn 0.2s ease;
 }
 @keyframes overlayIn { from{opacity:0} to{opacity:1} }
@@ -130,6 +135,40 @@
   animation: modalUp 0.3s ease;
 }
 @keyframes modalUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+
+/* ── Desktop aanpassingen ─────────────────────────────────── */
+@media (min-width: 768px) {
+  .schedule-page { padding: 32px 40px; }
+
+  /* Stages-grid: 2 kolommen */
+  .stages-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  /* Modal als gecentreerde dialog */
+  .act-modal-overlay {
+    align-items: center;
+  }
+
+  .act-modal {
+    border-radius: 20px;
+    max-height: 80vh;
+    max-width: 620px;
+    animation: modalScale 0.25s ease;
+  }
+  @keyframes modalScale {
+    from { transform: scale(0.95); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+
+  /* Grotere header-afbeelding in modal */
+  .stage-card-img-wrap { height: 180px; }
+
+  /* Day-tabs iets groter */
+  .day-tab { padding: 12px 24px; font-size: 15px; }
+}
 
 .act-modal-header {
   padding: 16px;

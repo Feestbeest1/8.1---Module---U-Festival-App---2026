@@ -78,20 +78,22 @@ export default function Home({ language }) {
 
       <h2 className="section-heading">{lang.news}</h2>
 
-      <div className="card news-card">
-        <h3 className="news-title">{lang.n1title}</h3>
-        <p className="news-text">{lang.n1}</p>
-        <span className="news-date">{lang.d1}</span>
-      </div>
-      <div className="card news-card">
-        <h3 className="news-title">{lang.n2title}</h3>
-        <p className="news-text">{lang.n2}</p>
-        <span className="news-date">{lang.d2}</span>
-      </div>
-      <div className="card news-card">
-        <h3 className="news-title">{lang.n3title}</h3>
-        <p className="news-text">{lang.n3}</p>
-        <span className="news-date">{lang.d3}</span>
+      <div className="news-grid">
+        <div className="card news-card">
+          <h3 className="news-title">{lang.n1title}</h3>
+          <p className="news-text">{lang.n1}</p>
+          <span className="news-date">{lang.d1}</span>
+        </div>
+        <div className="card news-card">
+          <h3 className="news-title">{lang.n2title}</h3>
+          <p className="news-text">{lang.n2}</p>
+          <span className="news-date">{lang.d2}</span>
+        </div>
+        <div className="card news-card">
+          <h3 className="news-title">{lang.n3title}</h3>
+          <p className="news-text">{lang.n3}</p>
+          <span className="news-date">{lang.d3}</span>
+        </div>
       </div>
     </div>
   )

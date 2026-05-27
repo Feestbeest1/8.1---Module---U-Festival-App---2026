@@ -7,6 +7,20 @@
   position: relative;
 }
 
+/* Desktop: kaart maximaal uitvullen */
+@media (min-width: 768px) {
+  .map-page {
+    padding: 16px 24px 0;
+  }
+
+  .map-container {
+    /* Neem alle beschikbare hoogte in */
+    flex: 1;
+    aspect-ratio: unset;
+    height: unset;
+  }
+}
+
 .map-header {
   display: flex;
   align-items: center;
@@ -192,64 +206,98 @@
 .zoom-btn:hover { background: var(--bg-card); }
 .zoom-btn .material-icons { font-size: 18px; }
 
-/* Legenda overlay */
-.legend-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  z-index: 200;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  animation: fadeInBg 0.2s ease;
-}
-@keyframes fadeInBg { from { opacity:0 } to { opacity:1 } }
-
-.legend-modal {
-  background: var(--bg-card);
-  border-radius: var(--radius) var(--radius) 0 0;
-  width: 100%;
-  max-width: 480px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  animation: slideUpModal 0.25s ease;
+/* ── Legenda — compact paneel rechtsboven op de kaart ──── */
+.legend-panel {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+  z-index: 50;
+  width: 190px;
   overflow: hidden;
+  animation: legendFadeIn 0.18s ease;
 }
-@keyframes slideUpModal { from { transform:translateY(100%) } to { transform:translateY(0) } }
 
-.legend-close-btn {
+@keyframes legendFadeIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+.legend-panel-header {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  padding: 9px 12px 8px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.legend-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.legend-panel-close {
   background: none;
   border: none;
-  border-bottom: 1px solid var(--border);
-  padding: 13px 16px;
-  width: 100%;
-  color: var(--text);
-  font-family: var(--font);
-  font-size: 14px;
-  font-weight: 700;
   cursor: pointer;
-  text-align: left;
-  transition: background 0.15s;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 4px;
+  transition: color 0.15s;
 }
-.legend-close-btn:hover { background: var(--bg); }
-.legend-close-btn .material-icons { font-size: 19px; color: var(--accent); }
+.legend-panel-close:hover { color: var(--accent); }
+.legend-panel-close .material-icons { font-size: 16px; }
 
-.legend-scroll {
+.legend-panel-body {
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 260px;
   overflow-y: auto;
-  flex: 1;
-  padding: 8px;
   -webkit-overflow-scrolling: touch;
 }
 
-.legend-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+/* Kleine pin-vorm (zelfde als de kaartmarkers) */
+.legend-pin {
+  width: 26px;
+  height: 26px;
+  border-radius: 50% 50% 50% 0;
+  rotate: -45deg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+
+.legend-pin-icon {
+  rotate: 45deg;
+  font-size: 12px !important;
+  color: #fff;
+}
+
+.legend-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
 }
 
 /* ── GPS-marker (blauwe stip voor eigen locatie) ── */
