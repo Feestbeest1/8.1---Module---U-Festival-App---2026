@@ -1,0 +1,11 @@
+# Netlify deployment configuratie voor ❤️U Festival PWA
+[build]
+  command   = "npm run build"
+  publish   = "dist"
+
+# SPA-routing: alle routes naar index.html sturen
+# (zodat React Router werkt bij directe URL-toegang)
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200

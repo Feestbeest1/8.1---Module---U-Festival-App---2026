@@ -91,6 +91,13 @@ html, body, #root {
 }
 .icon-btn:hover { background: rgba(255,255,255,0.1); }
 
+/* PWA install-knop: kleine puls om aandacht te trekken */
+.install-btn { animation: installPulse 2s ease-in-out 3; }
+@keyframes installPulse {
+  0%, 100% { background: none; }
+  50%       { background: rgba(240,50,40,0.3); }
+}
+
 .lang-btn {
   background: none; border: none; font-size: 22px;
   cursor: pointer; padding: 4px; border-radius: 4px;

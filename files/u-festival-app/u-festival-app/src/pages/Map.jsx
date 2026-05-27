@@ -1,99 +1,53 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { markers } from '../data/markers.js'
 import './Map.css'
 
 const t = {
   nl: { title: "FESTIVALTERREIN", heading: "KAART", legend: "Legenda", close: "Sluiten",
-        routeTo: "Route naar", clearRoute: "Route wissen", navigate: "Navigeer" },
+        routeTo: "Route naar", clearRoute: "Route wissen", navigate: "Navigeer",
+        gps: "Mijn locatie", gpsDenied: "GPS-toegang geweigerd", gpsUnavail: "GPS niet beschikbaar", gpsSearching: "Locatie zoeken…" },
   en: { title: "FESTIVAL GROUNDS", heading: "MAP", legend: "Legend", close: "Close",
-        routeTo: "Route to", clearRoute: "Clear route", navigate: "Navigate" },
+        routeTo: "Route to", clearRoute: "Clear route", navigate: "Navigate",
+        gps: "My location", gpsDenied: "GPS access denied", gpsUnavail: "GPS not available", gpsSearching: "Searching…" },
   fr: { title: "TERRAIN DU FESTIVAL", heading: "CARTE", legend: "Légende", close: "Fermer",
-        routeTo: "Itinéraire vers", clearRoute: "Effacer", navigate: "Naviguer" },
+        routeTo: "Itinéraire vers", clearRoute: "Effacer", navigate: "Naviguer",
+        gps: "Ma position", gpsDenied: "Accès GPS refusé", gpsUnavail: "GPS indisponible", gpsSearching: "Recherche…" },
   de: { title: "FESTIVALGELÄNDE", heading: "KARTE", legend: "Legende", close: "Schließen",
-        routeTo: "Route nach", clearRoute: "Route löschen", navigate: "Navigieren" },
+        routeTo: "Route nach", clearRoute: "Route löschen", navigate: "Navigieren",
+        gps: "Mein Standort", gpsDenied: "GPS-Zugriff verweigert", gpsUnavail: "GPS nicht verfügbar", gpsSearching: "Suche…" },
 }
 
-// Posities berekend vanuit de SVG viewBox (2330.58 × 1353.19)
-// Elk getal = coördinaat / SVG-breedte of -hoogte
-const markers = [
-  {
-    id: 'entrance', x: 0.690, y: 0.849,
-    icon: 'login', color: '#4CAF50',
-    label: { nl: 'Ingang / Uitgang', en: 'Entrance / Exit', fr: 'Entrée / Sortie', de: 'Eingang / Ausgang' },
-    info:  { nl: 'Hoofdingang & uitgang van het festivalterrein', en: 'Main entrance & exit of the festival grounds', fr: 'Entrée et sortie principale', de: 'Haupteingang und Ausgang' },
-  },
-  {
-    id: 'ponton', x: 0.213, y: 0.627,
-    icon: 'music_note', color: '#F03228',
-    label: { nl: 'Ponton', en: 'Ponton', fr: 'Ponton', de: 'Ponton' },
-    info:  { nl: 'Main stage – Hoofdacts & headliners', en: 'Main stage – Headliners', fr: 'Scène principale – Têtes d\'affiche', de: 'Hauptbühne – Headliner' },
-  },
-  {
-    id: 'lake', x: 0.539, y: 0.455,
-    icon: 'water', color: '#247BA0',
-    label: { nl: 'The Lake', en: 'The Lake', fr: 'Le Lac', de: 'Der See' },
-    info:  { nl: 'Onbekend & opkomend talent', en: 'Unknown & upcoming talent', fr: 'Talent inconnu & émergent', de: 'Unbekannte & aufstrebende Talente' },
-  },
-  {
-    id: 'club', x: 0.693, y: 0.391,
-    icon: 'theater_comedy', color: '#E3B505',
-    label: { nl: 'The Club', en: 'The Club', fr: 'Le Club', de: 'Der Club' },
-    info:  { nl: 'Theater & Stand-up comedy', en: 'Theater & Stand-up comedy', fr: 'Théâtre & Stand-up', de: 'Theater & Comedy' },
-  },
-  {
-    id: 'hangar', x: 0.902, y: 0.171,
-    icon: 'nightlife', color: '#555555',
-    label: { nl: 'Hangar', en: 'Hangar', fr: 'Hangar', de: 'Hangar' },
-    info:  { nl: 'Non-stop house / techno / dance', en: 'Non-stop house / techno / dance', fr: 'House / Techno non-stop', de: 'Non-Stop House / Techno' },
-  },
-  {
-    id: 'food1', x: 0.121, y: 0.628,
-    icon: 'restaurant', color: '#FF8C00',
-    label: { nl: 'Food & Drank', en: 'Food & Drinks', fr: 'Nourriture & Boissons', de: 'Essen & Trinken' },
-    info:  { nl: 'Food- en drankstand', en: 'Food and drink stand', fr: 'Stand nourriture et boissons', de: 'Essen- und Getränkestand' },
-  },
-  {
-    id: 'food2', x: 0.352, y: 0.440,
-    icon: 'restaurant', color: '#FF8C00',
-    label: { nl: 'Food & Drank', en: 'Food & Drinks', fr: 'Nourriture & Boissons', de: 'Essen & Trinken' },
-    info:  { nl: 'Food- en drankstand', en: 'Food and drink stand', fr: 'Stand nourriture et boissons', de: 'Essen- und Getränkestand' },
-  },
-  {
-    id: 'lockers', x: 0.272, y: 0.823,
-    icon: 'lock', color: '#9C27B0',
-    label: { nl: 'Kluisjes', en: 'Lockers', fr: 'Casiers', de: 'Schließfächer' },
-    info:  { nl: 'Kluisjes te huur – medium & groot', en: 'Lockers for rent – medium & large', fr: 'Casiers à louer – moyen & grand', de: 'Schließfächer zu mieten – mittel & groß' },
-  },
-  {
-    id: 'ehbo', x: 0.182, y: 0.306,
-    icon: 'local_hospital', color: '#4CAF50',
-    label: { nl: 'EHBO', en: 'First Aid', fr: 'Premiers Secours', de: 'Erste Hilfe' },
-    info:  { nl: 'Eerste hulp post', en: 'First aid station', fr: 'Poste de premiers secours', de: 'Erste-Hilfe-Station' },
-  },
-  {
-    id: 'toilet', x: 0.078, y: 0.786,
-    icon: 'wc', color: '#607D8B',
-    label: { nl: 'Toilet', en: 'Toilet', fr: 'Toilettes', de: 'Toilette' },
-    info:  { nl: 'Toiletten', en: 'Toilets', fr: 'Toilettes', de: 'Toiletten' },
-  },
-]
+// ── GPS: kaartgrenzen van Strijkviertel (Utrecht) ─────────────────────────
+// Het SVG viewBox-coördinatensysteem wordt lineair gemapt op geografische coords.
+const MAP_BOUNDS = {
+  north: 52.0700,   // bovenkant kaart
+  south: 52.0625,   // onderkant kaart
+  west:  5.0710,    // linkerkant kaart
+  east:  5.0910,    // rechterkant kaart
+}
 
-// Waypoints die om het water heen lopen
+function gpsToXY(lat, lon) {
+  const x = (lon - MAP_BOUNDS.west)  / (MAP_BOUNDS.east  - MAP_BOUNDS.west)
+  const y = (MAP_BOUNDS.north - lat) / (MAP_BOUNDS.north - MAP_BOUNDS.south)
+  return {
+    x: Math.max(0, Math.min(1, x)),
+    y: Math.max(0, Math.min(1, y)),
+  }
+}
+
+// ── Waypoints die om het water heen lopen ─────────────────────────────────
 // Kaart-layout: water zit links-onder; hoofdpad loopt langs de rand
 const P = {
   entrance: { x: 0.690, y: 0.849 },
-  // Onderste weg van rechts naar links (onder het water langs)
   b1: { x: 0.580, y: 0.830 },
   b2: { x: 0.450, y: 0.810 },
   b3: { x: 0.340, y: 0.790 },
   b4: { x: 0.230, y: 0.760 },
-  // Linkerkant omhoog (buitenlangs het water)
   l1: { x: 0.210, y: 0.690 },
   l2: { x: 0.215, y: 0.620 },
-  // Centraal pad naar rechts
   c1: { x: 0.310, y: 0.540 },
   c2: { x: 0.420, y: 0.480 },
   c3: { x: 0.540, y: 0.455 },
-  // Rechterkant omhoog
   r1: { x: 0.640, y: 0.390 },
   r2: { x: 0.760, y: 0.310 },
   r3: { x: 0.880, y: 0.215 },
@@ -121,22 +75,55 @@ function pointsToPath(pts) {
   return pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x * 100} ${p.y * 100}`).join(' ')
 }
 
-const stageColors = {
-  entrance: '#4CAF50', ponton: '#F03228', lake: '#247BA0',
-  club: '#E3B505', hangar: '#555555', food1: '#FF8C00',
-  food2: '#FF8C00', lockers: '#9C27B0', ehbo: '#4CAF50', toilet: '#607D8B',
-}
-
+// ── Hoofd-component ───────────────────────────────────────────────────────
 export default function Map({ language }) {
   const lang = t[language] || t.nl
   const containerRef = useRef(null)
 
-  const [scale, setScale]             = useState(1)
-  const [offset, setOffset]           = useState({ x: 0, y: 0 })
+  const [scale, setScale]               = useState(1)
+  const [offset, setOffset]             = useState({ x: 0, y: 0 })
   const [activeMarker, setActiveMarker] = useState(null)
-  const [route, setRoute]             = useState(null)
-  const [showLegend, setShowLegend]   = useState(false)
+  const [route, setRoute]               = useState(null)
+  const [showLegend, setShowLegend]     = useState(false)
 
+  // GPS-locatie
+  const [gpsPos, setGpsPos]         = useState(null)
+  const [gpsLoading, setGpsLoading] = useState(false)
+  const [gpsError, setGpsError]     = useState(null)
+  const watchIdRef = useRef(null)
+
+  const stopGPS = useCallback(() => {
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current)
+      watchIdRef.current = null
+    }
+    setGpsPos(null); setGpsLoading(false); setGpsError(null)
+  }, [])
+
+  const handleGPS = useCallback(() => {
+    if (watchIdRef.current !== null || gpsPos) { stopGPS(); return }
+    if (!navigator.geolocation) { setGpsError(lang.gpsUnavail); return }
+    setGpsLoading(true); setGpsError(null)
+    watchIdRef.current = navigator.geolocation.watchPosition(
+      (pos) => {
+        setGpsLoading(false)
+        const { latitude, longitude } = pos.coords
+        setGpsPos(gpsToXY(latitude, longitude))
+      },
+      (err) => {
+        setGpsLoading(false); watchIdRef.current = null
+        setGpsError(err.code === 1 ? lang.gpsDenied : lang.gpsUnavail)
+        setTimeout(() => setGpsError(null), 4000)
+      },
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 12000 },
+    )
+  }, [gpsPos, lang, stopGPS])
+
+  useEffect(() => () => {
+    if (watchIdRef.current !== null) navigator.geolocation.clearWatch(watchIdRef.current)
+  }, [])
+
+  // ── Drag & pinch ─────────────────────────────────────────────────────────
   const dragRef  = useRef({ dragging: false, lastX: 0, lastY: 0 })
   const pinchRef = useRef({ dist: 0 })
   const movedRef = useRef(false)
@@ -151,8 +138,7 @@ export default function Map({ language }) {
     const dy = e.clientY - dragRef.current.lastY
     if (Math.abs(dx) > 2 || Math.abs(dy) > 2) movedRef.current = true
     setOffset(o => ({ x: o.x + dx, y: o.y + dy }))
-    dragRef.current.lastX = e.clientX
-    dragRef.current.lastY = e.clientY
+    dragRef.current.lastX = e.clientX; dragRef.current.lastY = e.clientY
   }, [])
   const onMouseUp = useCallback(() => { dragRef.current.dragging = false }, [])
 
@@ -177,17 +163,14 @@ export default function Map({ language }) {
       const dx = e.touches[0].clientX - e.touches[1].clientX
       const dy = e.touches[0].clientY - e.touches[1].clientY
       const dist = Math.sqrt(dx * dx + dy * dy)
-      const delta = dist / (pinchRef.current.dist || dist)
-      pinchRef.current.dist = dist
-      setScale(s => Math.min(Math.max(s * delta, 0.5), 5))
-      movedRef.current = true
+      setScale(s => Math.min(Math.max(s * dist / (pinchRef.current.dist || dist), 0.5), 5))
+      pinchRef.current.dist = dist; movedRef.current = true
     } else if (e.touches.length === 1 && dragRef.current.dragging) {
       const dx = e.touches[0].clientX - dragRef.current.lastX
       const dy = e.touches[0].clientY - dragRef.current.lastY
       if (Math.abs(dx) > 2 || Math.abs(dy) > 2) movedRef.current = true
       setOffset(o => ({ x: o.x + dx, y: o.y + dy }))
-      dragRef.current.lastX = e.touches[0].clientX
-      dragRef.current.lastY = e.touches[0].clientY
+      dragRef.current.lastX = e.touches[0].clientX; dragRef.current.lastY = e.touches[0].clientY
     }
   }, [])
   const onTouchEnd = useCallback(() => { dragRef.current.dragging = false }, [])
@@ -266,6 +249,7 @@ export default function Map({ language }) {
             </svg>
           )}
 
+          {/* Interactieve markers */}
           {markers.map(m => (
             <button
               key={m.id}
@@ -276,8 +260,17 @@ export default function Map({ language }) {
               <span className="material-icons marker-icon">{m.icon}</span>
             </button>
           ))}
+
+          {/* GPS-stip voor eigen locatie */}
+          {gpsPos && (
+            <div className="gps-marker" style={{ left: `${gpsPos.x * 100}%`, top: `${gpsPos.y * 100}%` }}>
+              <div className="gps-pulse" />
+              <div className="gps-dot" />
+            </div>
+          )}
         </div>
 
+        {/* Marker popup */}
         {activeMarker && !route && (
           <div className="marker-popup" style={{ borderColor: activeMarker.color }}>
             <div className="popup-icon" style={{ background: activeMarker.color }}>
@@ -303,6 +296,15 @@ export default function Map({ language }) {
           </div>
         )}
 
+        {/* GPS-foutmelding */}
+        {gpsError && (
+          <div className="gps-error-banner">
+            <span className="material-icons">gps_off</span>
+            <span>{gpsError}</span>
+          </div>
+        )}
+
+        {/* Zoom- en GPS-knoppen */}
         <div className="zoom-controls">
           <button className="zoom-btn" onClick={() => setScale(s => Math.min(s * 1.3, 5))}>
             <span className="material-icons">add</span>
@@ -313,9 +315,19 @@ export default function Map({ language }) {
           <button className="zoom-btn" onClick={() => { setScale(1); setOffset({ x: 0, y: 0 }) }}>
             <span className="material-icons">center_focus_strong</span>
           </button>
+          <button
+            className={`zoom-btn gps-toggle-btn ${gpsPos ? 'gps-active' : ''} ${gpsLoading ? 'gps-loading' : ''}`}
+            onClick={handleGPS}
+            title={lang.gps}
+          >
+            <span className="material-icons">
+              {gpsLoading ? 'gps_not_fixed' : gpsPos ? 'gps_fixed' : 'my_location'}
+            </span>
+          </button>
         </div>
       </div>
 
+      {/* Legenda */}
       {showLegend && (
         <div className="legend-overlay" onClick={() => setShowLegend(false)}>
           <div className="legend-modal" onClick={e => e.stopPropagation()}>

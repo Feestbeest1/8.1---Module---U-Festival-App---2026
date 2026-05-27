@@ -251,3 +251,70 @@
   display: block;
   border-radius: 8px;
 }
+
+/* ── GPS-marker (blauwe stip voor eigen locatie) ── */
+.gps-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 25;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gps-dot {
+  width: 14px;
+  height: 14px;
+  background: #1976D2;
+  border: 2.5px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(25,118,210,0.4);
+  position: relative;
+  z-index: 2;
+}
+
+.gps-pulse {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: rgba(25, 118, 210, 0.25);
+  border-radius: 50%;
+  animation: gpsPulse 2s ease-out infinite;
+}
+
+@keyframes gpsPulse {
+  0%   { transform: scale(0.3); opacity: 1; }
+  100% { transform: scale(2);   opacity: 0; }
+}
+
+/* GPS-knop in zoomcontroles */
+.gps-toggle-btn { border-top: 1px solid var(--border); margin-top: 2px; }
+.gps-toggle-btn.gps-active .material-icons  { color: #1976D2; }
+.gps-toggle-btn.gps-loading .material-icons { animation: gpsSpin 1.2s linear infinite; }
+
+@keyframes gpsSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* GPS-foutmelding banner */
+.gps-error-banner {
+  position: absolute;
+  bottom: 54px;
+  left: 8px;
+  right: 50px;
+  background: #c62828;
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 40;
+  animation: slideUp 0.2s ease;
+}
+.gps-error-banner .material-icons { font-size: 16px; flex-shrink: 0; }
