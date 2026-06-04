@@ -1,0 +1,6 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#4CAF50"/>
+  <rect y="320" width="400" height="80" fill="rgba(0,0,0,0.45)"/>
+  <text x="200" y="230" font-family="Arial,sans-serif" font-size="130" font-weight="bold" fill="rgba(255,255,255,0.9)" text-anchor="middle" dominant-baseline="middle">CS</text>
+  <text x="200" y="362" font-family="Arial,sans-serif" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">Chef'Special</text>
+</svg>
