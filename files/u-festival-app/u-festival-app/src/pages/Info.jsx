@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { festivalData } from '../data/festival.js'
+import { useState, useEffect } from 'react'
+import { festivalData as staticFestivalData } from '../data/festival.js'
+import { getFestivalInfo } from '../data/db.js'
 import './Info.css'
 
 const labels = {
@@ -24,6 +25,12 @@ function Accordion({ title, children }) {
 
 export default function Info({ language }) {
   const lang = labels[language] || labels.nl
+  const [festivalData, setFestivalData] = useState(staticFestivalData)
+
+  useEffect(() => {
+    getFestivalInfo().then(d => { if (d) setFestivalData(d) })
+  }, [])
+
   const data = festivalData[language]?.info || festivalData.nl.info
 
   return (

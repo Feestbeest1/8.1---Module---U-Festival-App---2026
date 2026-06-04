@@ -22,9 +22,11 @@ export const festivalData = {
       faq: {
         title: "FAQ",
         items: [
-          { q: "Ik gebruik medicatie. Wat nu?", a: "Het is toegestaan om medicijnen mee te nemen in een dosis die je maximaal nodig hebt op 1 dag. Een doktersverklaring is noodzakelijk." },
-          { q: "Mag ik het festivalterrein tussentijds verlaten?", a: "Nee, helaas is dat niet mogelijk om de veiligheid van alle bezoekers te waarborgen." },
-          { q: "Zijn er lockers?", a: "Yes! Op het terrein kun je medium & grote lockers huren." }
+          { q: "Ik gebruik medicatie. Wat nu?", a: "Het is toegestaan om medicijnen mee te nemen in een dosis die je maximaal nodig hebt op 1 dag. Een doktersverklaring/medicatiepaspoort is noodzakelijk. De beveiliging beoordeelt jouw documentatie en controleert de medicijnen. De EHBO kan jouw medicijnen in bewaring nemen en je kunt deze dan enkel innemen bij de EHBO-post." },
+          { q: "Mag ik het festivalterrein tussentijds verlaten?", a: "Nee, helaas is dat niet mogelijk. Om de veiligheid van alle bezoekers te waarborgen, is het verlaten van het terrein tussentijds niet toegestaan. Er zijn geen uitzonderingen mogelijk. Er zijn genoeg loungeplekken, foodstands en barren aanwezig om het een hele dag vol te houden." },
+          { q: "Zijn er lockers?", a: "Yes! Op het terrein kun je medium & grote lockers huren. Je kunt je kluisje de hele dag zo vaak als je wilt openen en sluiten." },
+          { q: "Hoe kom ik aan mijn ticket?", a: "Tickets (op naam) voor het festival worden uitgereikt via jouw onderwijsinstelling. Het is ook mogelijk tickets te bestellen voor introducees." },
+          { q: "Is er camping?", a: "Nee, ❤️U Festival heeft geen camping. Het festival is op zaterdag 15 en zondag 16 augustus 2026 van 12:00 tot 23:00." }
         ]
       },
       golden: {
@@ -56,9 +58,11 @@ export const festivalData = {
       faq: {
         title: "FAQ",
         items: [
-          { q: "I use medication. What now?", a: "You are allowed to bring medication in the dose you need for 1 day. A doctor's certificate is required." },
-          { q: "Can I leave the festival grounds temporarily?", a: "No, unfortunately this is not possible to ensure the safety of all visitors." },
-          { q: "Are there lockers?", a: "Yes! You can rent medium & large lockers on site." }
+          { q: "I use medication. What now?", a: "You are allowed to bring medication in the dose you need for 1 day maximum. A doctor's certificate/medication passport is required. Security will assess your documentation and check the medication. The first aid post may keep your medication and you can only take it at the first aid station." },
+          { q: "Can I leave the festival grounds temporarily?", a: "No, unfortunately this is not possible. To ensure the safety of all visitors, leaving the grounds temporarily is not allowed. No exceptions can be made. There are plenty of lounge areas, food stands and bars to get through the day." },
+          { q: "Are there lockers?", a: "Yes! You can rent medium & large lockers on site. You can open and close your locker as many times as you like throughout the day." },
+          { q: "How do I get my ticket?", a: "Tickets (in your name) are distributed through your educational institution. It is also possible to order tickets for your introductees." },
+          { q: "Is there camping?", a: "No, ❤️U Festival does not have a campsite. The festival takes place on Saturday 15 and Sunday 16 August 2026 from 12:00 to 23:00." }
         ]
       },
       golden: {

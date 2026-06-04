@@ -64,10 +64,13 @@
 }
 .stage-label {
   width: 80px; flex-shrink: 0;
-  font-size: 11px; font-weight: 700;
-  writing-mode: vertical-rl; text-orientation: mixed;
-  transform: rotate(180deg);
-  padding: 8px 4px; letter-spacing: 1px;
+  font-size: 10px; font-weight: 700;
+  padding: 0 6px;
+  text-align: center;
+  overflow: hidden;
+  word-break: break-word;
+  line-height: 1.2;
+  color: inherit;
 }
 .act-block {
   position: absolute; top: 6px; height: 44px;
@@ -76,11 +79,95 @@
   align-items: flex-start; justify-content: center;
   padding: 0 10px; gap: 2px;
   cursor: pointer; border: none;
+  overflow: hidden;
   transition: opacity 0.2s, transform 0.15s;
 }
 .act-block:hover { opacity: 0.85; transform: translateY(-1px); }
-.act-name { font-size: 11px; font-weight: 300; font-style: italic; color: #fff; white-space: nowrap; }
-.act-time { font-size: 10px; color: rgba(255,255,255,0.7); }
+.act-name {
+  font-size: 11px; font-weight: 300; font-style: italic; color: #fff;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 100%;
+}
+.act-time { font-size: 10px; color: rgba(255,255,255,0.8); flex-shrink: 0; }
+
+/* ── Stage filter chips ── */
+.stage-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.stage-filter-btn {
+  padding: 5px 13px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.stage-filter-btn:hover { opacity: 0.8; }
+.stage-filter-btn.active { color: #fff; background: #111; border-color: #111; }
+[data-theme="dark"] .stage-filter-btn.active { background: #e8e8e8; border-color: #e8e8e8; color: #000; }
+
+/* ── Favorieten tab ── */
+.fav-tab { margin-left: auto; }
+.fav-tab .material-icons { font-size: 20px; }
+.fav-tab.fav-active .material-icons { color: #e53935; }
+
+/* ── Favoriet hart op act-item ── */
+.act-fav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.act-fav-btn .material-icons { font-size: 20px; color: var(--text-muted); }
+.act-fav-btn.is-fav .material-icons { color: #e53935; }
+.act-fav-btn:hover { transform: scale(1.2); }
+
+/* ── Favoriet hart in modal ── */
+.act-modal-fav {
+  position: absolute;
+  top: 12px;
+  right: 52px;
+  background: rgba(0,0,0,0.35);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  transition: transform 0.15s;
+}
+.act-modal-fav .material-icons { font-size: 18px; color: #fff; }
+.act-modal-fav.is-fav .material-icons { color: #ff5252; }
+.act-modal-fav:hover { transform: scale(1.15); }
+
+/* ── Lege favorieten melding ── */
+.empty-favs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 16px;
+  color: var(--text-muted);
+}
+.empty-favs .material-icons { font-size: 48px; opacity: 0.4; }
+.empty-favs p { font-size: 14px; text-align: center; font-style: italic; }
 
 /* ── STAGES GRID ── */
 .stages-grid { display: flex; flex-direction: column; gap: 16px; }
@@ -111,7 +198,10 @@
 .stage-act-item:hover { background: var(--bg); }
 .act-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .act-item-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-.act-item-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.act-item-name {
+  font-size: 14px; font-weight: 700; color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 .act-item-meta { font-size: 12px; color: var(--text-muted); font-style: italic; }
 .act-item-arrow { font-size: 18px; color: var(--text-muted); }
 .no-acts { padding: 12px 14px; font-size: 13px; color: var(--text-muted); font-style: italic; }
@@ -171,18 +261,41 @@
 }
 
 .act-modal-header {
-  padding: 16px;
   position: relative;
   border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.act-modal-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+.act-modal-header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.72) 100%);
+}
+.act-modal-header-text {
+  position: relative;
+  z-index: 2;
+  padding: 16px 16px 14px;
 }
 .act-modal-close {
   position: absolute; top: 12px; right: 12px;
-  background: rgba(255,255,255,0.2); border: none; border-radius: 50%;
+  background: rgba(0,0,0,0.35); border: none; border-radius: 50%;
   width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: #fff;
+  cursor: pointer; color: #fff; z-index: 3;
 }
-.act-modal-name { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-.act-modal-meta { font-size: 13px; color: rgba(255,255,255,0.8); font-style: italic; }
+.act-modal-name { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 2px; line-height: 1.1; }
+.act-modal-meta { font-size: 14px; color: rgba(255,255,255,0.95); font-style: italic; font-weight: 300; margin-bottom: 2px; }
+.act-modal-sub  { font-size: 11px; color: rgba(255,255,255,0.7); letter-spacing: 0.5px; }
 
 .act-modal-body { padding: 16px; }
 

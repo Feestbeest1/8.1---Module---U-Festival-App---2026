@@ -1,0 +1,52 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ufestival
+      MYSQL_DATABASE: ufestival
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./api
+    ports:
+      - "3001:3001"
+    expose:
+      - "3001"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ufestival
+      DB_NAME: ufestival
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: ufestival
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  ufestival:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  mysql_data:

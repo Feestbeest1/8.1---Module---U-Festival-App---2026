@@ -111,39 +111,34 @@
   overflow: visible;
 }
 
-/* Markers */
-.map-marker {
+/* Onzichtbare hotspots over de SVG-markers */
+.map-hotspot {
   position: absolute;
-  transform: translate(-50%, -100%);
-  background: var(--mc);
-  border: 2px solid #fff;
-  border-radius: 50% 50% 50% 0;
-  rotate: -45deg;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  border: none;
+  border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
-  transition: box-shadow 0.15s, transform 0.15s;
+  padding: 0;
   z-index: 10;
+  transition: background 0.15s;
+  outline: none;
 }
-.map-marker:hover {
-  box-shadow: 0 4px 14px rgba(0,0,0,0.45);
-  transform: translate(-50%, -115%) scale(1.12);
+.map-hotspot:hover {
+  background: rgba(255, 255, 255, 0.18);
 }
-.map-marker.active {
-  box-shadow: 0 0 0 3px #fff, 0 4px 14px rgba(0,0,0,0.4);
+.map-hotspot.active {
+  background: rgba(255, 255, 255, 0.28);
+  outline: 2px solid rgba(255, 255, 255, 0.75);
+  outline-offset: 1px;
 }
-.map-marker.destination {
-  animation: markerBounce 0.7s ease infinite alternate;
+.map-hotspot.destination {
+  animation: hotspotPulse 0.7s ease infinite alternate;
 }
-@keyframes markerBounce {
-  from { transform: translate(-50%, -100%); }
-  to   { transform: translate(-50%, -115%); }
+@keyframes hotspotPulse {
+  from { background: rgba(255, 255, 255, 0.15); }
+  to   { background: rgba(255, 255, 255, 0.35); }
 }
-.marker-icon { rotate: 45deg; font-size: 16px; color: #fff; }
 
 /* Marker popup */
 .marker-popup {
@@ -178,6 +173,106 @@
 .popup-navigate-btn:hover { opacity:0.85; }
 .popup-navigate-btn .material-icons { font-size:14px; }
 .popup-close { background:none; border:none; cursor:pointer; color:var(--text-muted); display:flex; padding:3px; }
+
+/* ── Stage lineup popup ────────────────────────────────────────────────── */
+.stage-popup {
+  position: absolute;
+  bottom: 50px;
+  left: 8px;
+  right: 8px;
+  background: var(--bg-card);
+  border: 2px solid;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  animation: slideUp 0.2s ease;
+  z-index: 50;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 55%;
+}
+
+.stage-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  flex-shrink: 0;
+}
+.stage-popup-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+}
+.stage-popup-title .material-icons { font-size: 20px; }
+.stage-popup-title strong { font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
+.stage-popup-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stage-popup-body {
+  overflow-y: auto;
+  padding: 8px 0 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stage-day-block { margin-bottom: 4px; }
+
+.stage-day-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 4px 12px 3px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.stage-act-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+.stage-act-row:last-child { border-bottom: none; }
+.stage-act-row:hover { background: var(--bg); }
+
+.act-time {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 36px;
+  flex-shrink: 0;
+}
+.act-name {
+  font-size: 13px;
+  font-weight: 600;
+  flex: 1;
+}
+.act-genre {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #fff;
+  background: var(--accent);
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* Desktop: popup breder en hoger */
+@media (min-width: 768px) {
+  .stage-popup {
+    max-width: 480px;
+    max-height: 65%;
+  }
+}
 
 /* Zoom knoppen */
 .zoom-controls {
@@ -340,6 +435,18 @@
 .gps-toggle-btn { border-top: 1px solid var(--border); margin-top: 2px; }
 .gps-toggle-btn.gps-active .material-icons  { color: #1976D2; }
 .gps-toggle-btn.gps-loading .material-icons { animation: gpsSpin 1.2s linear infinite; }
+.gps-toggle-btn.gps-following { background: #1976D2; border-color: #1976D2; }
+.gps-toggle-btn.gps-following .material-icons { color: #fff; animation: followPulse 1.5s ease-in-out infinite; }
+
+@keyframes followPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.2); }
+}
+
+/* Soepele beweging in volgmodus */
+.map-inner.map-following {
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
 
 @keyframes gpsSpin {
   from { transform: rotate(0deg); }

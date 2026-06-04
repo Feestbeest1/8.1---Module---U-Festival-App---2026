@@ -1,21 +1,20 @@
 /**
  * Admin.jsx — CMS voor het ❤️U Festival
  * Bereikbaar via /admin (niet zichtbaar in de normale navigatie)
- *
- * Functies:
- *  - Login met wachtwoord (VITE_ADMIN_PASSWORD in .env)
- *  - Lineup beheren  (acts toevoegen / bewerken / verwijderen)
- *  - Festivalinfo bewerken  (teksten per taal)
- *  - Kaartmarkers bewerken  (labels & omschrijvingen)
- *
- * Data wordt opgeslagen in Firebase Firestore.
- * Als Firebase niet geconfigureerd is, wordt dat duidelijk gemeld.
  */
 
 import { useState, useEffect, useCallback } from 'react'
 import { getActs, saveActs, getFestivalInfo, saveFestivalInfo, getMarkers, saveMarkers } from '../data/db.js'
-import { firebaseConfigured } from '../firebase.js'
 import './Admin.css'
+
+const API_URL = import.meta.env.VITE_API_URL || ''
+
+async function checkApi() {
+  try {
+    const res = await fetch(`${API_URL}/api/health`)
+    return res.ok
+  } catch { return false }
+}
 
 // ── Wachtwoord (stel in via .env → VITE_ADMIN_PASSWORD) ───────────────────
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'ufestival2026'
@@ -35,8 +34,13 @@ const EMPTY_ACT = {
 //  LOGIN
 // ════════════════════════════════════════════════════════════════════════════
 function LoginScreen({ onLogin }) {
-  const [pw, setPw] = useState('')
-  const [err, setErr] = useState('')
+  const [pw, setPw]           = useState('')
+  const [err, setErr]         = useState('')
+  const [apiOk, setApiOk]     = useState(null)  // null=bezig, true=ok, false=fout
+
+  useEffect(() => {
+    checkApi().then(ok => setApiOk(ok))
+  }, [])
 
   const handle = (e) => {
     e.preventDefault()
@@ -69,12 +73,11 @@ function LoginScreen({ onLogin }) {
           {err && <p className="admin-err">{err}</p>}
           <button type="submit" className="admin-btn-primary">Inloggen</button>
         </form>
-        {!firebaseConfigured && (
-          <div className="admin-firebase-warn">
-            ⚠️ Firebase niet geconfigureerd — wijzigingen worden niet opgeslagen in de cloud.
-            Stel de .env-sleutels in om het CMS volledig te activeren.
-          </div>
-        )}
+        <div className="admin-api-status">
+          {apiOk === null && <span className="api-checking">⏳ Verbinding controleren…</span>}
+          {apiOk === true  && <span className="api-ok">✅ Database verbonden</span>}
+          {apiOk === false && <span className="api-err">⚠️ Database niet bereikbaar — start Docker</span>}
+        </div>
       </div>
     </div>
   )
@@ -462,9 +465,6 @@ export default function Admin() {
           <span className="admin-header-title">CMS</span>
         </div>
         <div className="admin-header-right">
-          {!firebaseConfigured && (
-            <span className="admin-no-firebase">⚠️ Firebase niet actief</span>
-          )}
           <button className="admin-logout-btn" onClick={handleLogout}>
             <span className="material-icons">logout</span>
           </button>
